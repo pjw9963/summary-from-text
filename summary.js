@@ -114,8 +114,6 @@ async function uploadAnalyzeDownload(file) {
     JobId: comp_job.JobId,
   };
 
-  console.log(statusParams);
-
   let status_complete = await poll(statusParams);
 
   output_s3Uri =
@@ -126,10 +124,8 @@ async function uploadAnalyzeDownload(file) {
   // get resulting file from s3 and decompress the output and convert to json object
   let result = unzipFromS3(key, bucket);
 
-  result.then((data) => {
+  let data = await result.then((data) => {
     data = data.substring(data.indexOf("{"));
-    console.log(data);
-
     data = data
       .replace(/\\n/g, "\\n")
       .replace(/\\'/g, "\\'")
@@ -141,10 +137,11 @@ async function uploadAnalyzeDownload(file) {
       .replace(/\\f/g, "\\f");
     data = data.replace(/[\u0000-\u0019]+/g, "");
 
-    let json = JSON.parse(data);
+    console.log(data);
 
-    json.Entities.forEach((element) => {
-      console.log(element.Text);
-    });
+    let json = JSON.parse(data);
+    return json;
   });
+
+  console.log(data);
 }

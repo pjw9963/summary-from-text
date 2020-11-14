@@ -1,0 +1,243 @@
+{
+  "Entities": [
+    {
+      "BeginOffset": 14,
+      "EndOffset": 24,
+      "Score": 0.9803186385185924,
+      "Text": "two brains",
+      "Type": "QUANTITY"
+    },
+    {
+      "BeginOffset": 26,
+      "EndOffset": 41,
+      "Score": 0.9892554234013946,
+      "Text": "Two hemispheres",
+      "Type": "QUANTITY"
+    },
+    {
+      "BeginOffset": 42,
+      "EndOffset": 46,
+      "Score": 0.5651113911880733,
+      "Text": "each",
+      "Type": "QUANTITY"
+    },
+    {
+      "BeginOffset": 53,
+      "EndOffset": 57,
+      "Score": 0.7512401944909902,
+      "Text": "half",
+      "Type": "QUANTITY"
+    },
+    {
+      "BeginOffset": 81,
+      "EndOffset": 85,
+      "Score": 0.9900727261134786,
+      "Text": "Half",
+      "Type": "QUANTITY"
+    },
+    {
+      "BeginOffset": 106,
+      "EndOffset": 110,
+      "Score": 0.9856875333784795,
+      "Text": "each",
+      "Type": "QUANTITY"
+    },
+    {
+      "BeginOffset": 115,
+      "EndOffset": 119,
+      "Score": 0.8249693060327616,
+      "Text": "half",
+      "Type": "QUANTITY"
+    },
+    {
+      "BeginOffset": 146,
+      "EndOffset": 150,
+      "Score": 0.9647498510318818,
+      "Text": "each",
+      "Type": "QUANTITY"
+    },
+    {
+      "BeginOffset": 202,
+      "EndOffset": 212,
+      "Score": 0.9820983414404135,
+      "Text": "two brains",
+      "Type": "QUANTITY"
+    },
+    {
+      "BeginOffset": 718,
+      "EndOffset": 726,
+      "Score": 0.969945701885989,
+      "Text": "one half",
+      "Type": "QUANTITY"
+    },
+    {
+      "BeginOffset": 947,
+      "EndOffset": 956,
+      "Score": 0.9868590033336888,
+      "Text": "each half",
+      "Type": "QUANTITY"
+    },
+    {
+      "BeginOffset": 1470,
+      "EndOffset": 1473,
+      "Score": 0.5006120063564587,
+      "Text": "one",
+      "Type": "QUANTITY"
+    },
+    {
+      "BeginOffset": 2099,
+      "EndOffset": 2119,
+      "Score": 0.9793388292682438,
+      "Text": "two separate objects",
+      "Type": "QUANTITY"
+    },
+    {
+      "BeginOffset": 2141,
+      "EndOffset": 2150,
+      "Score": 0.8786658260677711,
+      "Text": "each hand",
+      "Type": "QUANTITY"
+    },
+    {
+      "BeginOffset": 2854,
+      "EndOffset": 2863,
+      "Score": 0.9968896305461973,
+      "Text": "two minds",
+      "Type": "QUANTITY"
+    },
+    {
+      "BeginOffset": 2867,
+      "EndOffset": 2875,
+      "Score": 0.9050555410000473,
+      "Text": "one head",
+      "Type": "QUANTITY"
+    },
+    {
+      "BeginOffset": 3378,
+      "EndOffset": 3388,
+      "Score": 0.9458547374119742,
+      "Text": "one answer",
+      "Type": "QUANTITY"
+    },
+    {
+      "BeginOffset": 3605,
+      "EndOffset": 3610,
+      "Score": 0.6094817490969493,
+      "Text": "first",
+      "Type": "QUANTITY"
+    },
+    {
+      "BeginOffset": 3845,
+      "EndOffset": 3855,
+      "Score": 0.6874168444884052,
+      "Text": "two of you",
+      "Type": "QUANTITY"
+    },
+    {
+      "BeginOffset": 3877,
+      "EndOffset": 3880,
+      "Score": 0.725435783199866,
+      "Text": "one",
+      "Type": "QUANTITY"
+    },
+    {
+      "BeginOffset": 4439,
+      "EndOffset": 4442,
+      "Score": 0.9755928733026138,
+      "Text": "two",
+      "Type": "QUANTITY"
+    },
+    {
+      "BeginOffset": 4458,
+      "EndOffset": 4462,
+      "Score": 0.9913372995902973,
+      "Text": "Grey",
+      "Type": "PERSON"
+    },
+    {
+      "BeginOffset": 4485,
+      "EndOffset": 4495,
+      "Score": 0.9999146534361616,
+      "Text": "Kurzgesagt",
+      "Type": "PERSON"
+    },
+    {
+      "BeginOffset": 4542,
+      "EndOffset": 4552,
+      "Score": 0.999144809253227,
+      "Text": "Kurzgesagt",
+      "Type": "PERSON"
+    },
+    {
+      "BeginOffset": 4610,
+      "EndOffset": 4639,
+      "Score": 0.6767607933394075,
+      "Text": "trillions of tiny individuals",
+      "Type": "QUANTITY"
+    },
+    {
+      "BeginOffset": 4672,
+      "EndOffset": 4682,
+      "Score": 0.9996241552122116,
+      "Text": "Kurzgesagt",
+      "Type": "PERSON"
+    },
+    {
+      "BeginOffset": 4730,
+      "EndOffset": 4733,
+      "Score": 0.9029535223965877,
+      "Text": "one",
+      "Type": "QUANTITY"
+    },
+    {
+      "BeginOffset": 4736,
+      "EndOffset": 4746,
+      "Score": 0.9996267758451663,
+      "Text": "Kurzgesagt",
+      "Type": "PERSON"
+    },
+    {
+      "BeginOffset": 4767,
+      "EndOffset": 4786,
+      "Score": 0.7110630630089395,
+      "Text": "lots of tiny things",
+      "Type": "QUANTITY"
+    },
+    {
+      "BeginOffset": 4793,
+      "EndOffset": 4803,
+      "Score": 0.998889131941559,
+      "Text": "Kurzgesagt",
+      "Type": "PERSON"
+    },
+    {
+      "BeginOffset": 4871,
+      "EndOffset": 4875,
+      "Score": 0.9545158609275234,
+      "Text": "Grey",
+      "Type": "PERSON"
+    },
+    {
+      "BeginOffset": 4923,
+      "EndOffset": 4933,
+      "Score": 0.963796485490868,
+      "Text": "Kurzgesagt",
+      "Type": "PERSON"
+    },
+    {
+      "BeginOffset": 4976,
+      "EndOffset": 4984,
+      "Score": 0.9881311529765298,
+      "Text": "Kurgaset",
+      "Type": "PERSON"
+    },
+    {
+      "BeginOffset": 4986,
+      "EndOffset": 4996,
+      "Score": 0.5043094624708432,
+      "Text": "Kurtzgaset",
+      "Type": "PERSON"
+    }
+  ],
+  "File": "8c6827ff-64ab-41bb-8a49-0c2c8a7da857-transcript02.txt"
+}

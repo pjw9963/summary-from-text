@@ -1,0 +1,187 @@
+{
+  "Entities": [
+    {
+      "BeginOffset": 0,
+      "EndOffset": 7,
+      "Score": 0.999824197207169,
+      "Text": "Node.js",
+      "Type": "TITLE"
+    },
+    {
+      "BeginOffset": 45,
+      "EndOffset": 55,
+      "Score": 0.9673953294140555,
+      "Text": "JavaScript",
+      "Type": "TITLE"
+    },
+    {
+      "BeginOffset": 130,
+      "EndOffset": 137,
+      "Score": 0.9996339231111232,
+      "Text": "Node.js",
+      "Type": "TITLE"
+    },
+    {
+      "BeginOffset": 147,
+      "EndOffset": 160,
+      "Score": 0.7767829011770935,
+      "Text": "V8 JavaScript",
+      "Type": "TITLE"
+    },
+    {
+      "BeginOffset": 181,
+      "EndOffset": 194,
+      "Score": 0.7878322970226105,
+      "Text": "Google Chrome",
+      "Type": "TITLE"
+    },
+    {
+      "BeginOffset": 232,
+      "EndOffset": 239,
+      "Score": 0.9986674684447777,
+      "Text": "Node.js",
+      "Type": "TITLE"
+    },
+    {
+      "BeginOffset": 265,
+      "EndOffset": 272,
+      "Score": 0.9993664466525364,
+      "Text": "Node.js",
+      "Type": "TITLE"
+    },
+    {
+      "BeginOffset": 289,
+      "EndOffset": 303,
+      "Score": 0.6795368053689034,
+      "Text": "single process",
+      "Type": "QUANTITY"
+    },
+    {
+      "BeginOffset": 339,
+      "EndOffset": 352,
+      "Score": 0.642242636922788,
+      "Text": "every request",
+      "Type": "QUANTITY"
+    },
+    {
+      "BeginOffset": 354,
+      "EndOffset": 361,
+      "Score": 0.9991830115119229,
+      "Text": "Node.js",
+      "Type": "TITLE"
+    },
+    {
+      "BeginOffset": 445,
+      "EndOffset": 455,
+      "Score": 0.9573115407579856,
+      "Text": "JavaScript",
+      "Type": "TITLE"
+    },
+    {
+      "BeginOffset": 503,
+      "EndOffset": 510,
+      "Score": 0.9980665943071657,
+      "Text": "Node.js",
+      "Type": "TITLE"
+    },
+    {
+      "BeginOffset": 619,
+      "EndOffset": 626,
+      "Score": 0.9971908787137546,
+      "Text": "Node.js",
+      "Type": "TITLE"
+    },
+    {
+      "BeginOffset": 788,
+      "EndOffset": 795,
+      "Score": 0.9986087393579045,
+      "Text": "Node.js",
+      "Type": "TITLE"
+    },
+    {
+      "BeginOffset": 865,
+      "EndOffset": 872,
+      "Score": 0.9991053010004739,
+      "Text": "Node.js",
+      "Type": "TITLE"
+    },
+    {
+      "BeginOffset": 883,
+      "EndOffset": 918,
+      "Score": 0.985846652661301,
+      "Text": "thousands of concurrent connections",
+      "Type": "QUANTITY"
+    },
+    {
+      "BeginOffset": 924,
+      "EndOffset": 925,
+      "Score": 0.5596595795514351,
+      "Text": "a",
+      "Type": "QUANTITY"
+    },
+    {
+      "BeginOffset": 926,
+      "EndOffset": 939,
+      "Score": 0.7394731386034804,
+      "Text": "single server",
+      "Type": "QUANTITY"
+    },
+    {
+      "BeginOffset": 1048,
+      "EndOffset": 1055,
+      "Score": 0.9960117297278368,
+      "Text": "Node.js",
+      "Type": "TITLE"
+    },
+    {
+      "BeginOffset": 1087,
+      "EndOffset": 1118,
+      "Score": 0.9926489313449894,
+      "Text": "millions of frontend developers",
+      "Type": "QUANTITY"
+    },
+    {
+      "BeginOffset": 1130,
+      "EndOffset": 1140,
+      "Score": 0.8989887657508544,
+      "Text": "JavaScript",
+      "Type": "TITLE"
+    },
+    {
+      "BeginOffset": 1298,
+      "EndOffset": 1305,
+      "Score": 0.9957478429954727,
+      "Text": "Node.js",
+      "Type": "TITLE"
+    },
+    {
+      "BeginOffset": 1314,
+      "EndOffset": 1324,
+      "Score": 0.9977801358444283,
+      "Text": "ECMAScript",
+      "Type": "TITLE"
+    },
+    {
+      "BeginOffset": 1473,
+      "EndOffset": 1483,
+      "Score": 0.9800878306800203,
+      "Text": "ECMAScript",
+      "Type": "TITLE"
+    },
+    {
+      "BeginOffset": 1515,
+      "EndOffset": 1522,
+      "Score": 0.9646361372321482,
+      "Text": "Node.js",
+      "Type": "TITLE"
+    },
+    {
+      "BeginOffset": 1598,
+      "EndOffset": 1605,
+      "Score": 0.9895239325860821,
+      "Text": "Node.js",
+      "Type": "TITLE"
+    }
+  ],
+  "File": "def06178-91f3-4ed7-9764-a5c34b181754-transcript01.txt"
+}
