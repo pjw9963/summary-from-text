@@ -1,0 +1,19 @@
+{
+  "name": "comp-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "amazon-s3-uri": "^0.1.0",
+    "aws-sdk": "^2.789.0",
+    "jszip": "^3.5.0",
+    "uuid": "^8.3.1",
+    "zlib": "^1.0.5"
+  }
+}
