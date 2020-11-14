@@ -5,6 +5,7 @@ const fs = require("fs");
 const fsp = require('fs').promises;
 const { v4: uuidv4 } = require("uuid");
 const AmazonS3URI = require("amazon-s3-uri");
+const { Worker, isMainThread, workerData, parentPort } = require('worker_threads');
 
 let s3 = new AWS.S3({
   apiVersion: "2006-03-01",
@@ -14,7 +15,7 @@ let comprehend = new AWS.Comprehend({
   region: "us-east-2",
 });
 
-let file = process.argv[2];
+let file = workerData.file;
 
 uploadAnalyzeDownload(file);
 
@@ -66,7 +67,7 @@ async function poll(params) {
   while (js !== "COMPLETED" && i < 50) {
     res = await comprehend.describeEntitiesDetectionJob(params).promise();
     js = res.EntitiesDetectionJobProperties.JobStatus;
-    console.log("Comprehend Job Status: " + js);
+    console.log("Comprehend Job " + res.EntitiesDetectionJobProperties.JobId + " Status: " + js);
     if (js === "COMPLETED") {
       return res;
     }
@@ -75,9 +76,8 @@ async function poll(params) {
   }
 }
 
-async function generateSummary(transcript_file, entities, sen_count = 3) {
-  let sentences = await fsp.readFile(transcript_file, 'utf8');
-  sentences = sentences.replace(/([.?!])\s*(?=[A-Z])/g, "$1|").split("|");
+function generateSummary(transcript, entities, sen_count = 3) {
+  sentences = transcript.replace(/([.?!])\s*(?=[A-Z])/g, "$1|").split("|");
   
   let key_words = Array.from(entities.Entities, (element) => {
       return element.Text;
@@ -104,12 +104,9 @@ async function generateSummary(transcript_file, entities, sen_count = 3) {
 async function uploadAnalyzeDownload(file) {
   var uploadParams = { Bucket: "pw-comprehend", Key: "", Body: "" };
   // Configure the file stream and obtain the upload parameters
-  let fileStream = fs.createReadStream(file);
-  fileStream.on("error", function (err) {
-    console.log("File Error", err);
-  });
+  let fileStream = Buffer.from(file, 'utf8')
   uploadParams.Body = fileStream;
-  uploadParams.Key = `${uuidv4()}-${path.basename(file)}`;
+  uploadParams.Key = `${uuidv4()}-transcript.txt`;
 
   // call S3 to retrieve upload file to specified bucket
   let input_data = await s3.upload(uploadParams).promise();
@@ -169,6 +166,9 @@ async function uploadAnalyzeDownload(file) {
   });
   
   let sentence_count = 5;
-  let summary = await generateSummary(file, data, sentence_count);
+  let summary = generateSummary(file, data, sentence_count);
   console.log(summary);
+  return summary; //upload to s3 bucket
 }
+
+module.exports.generateSummaryFromText = uploadAnalyzeDownload;
