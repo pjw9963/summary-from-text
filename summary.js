@@ -2,6 +2,7 @@ const AWS = require("aws-sdk");
 const zlib = require("zlib");
 const path = require("path");
 const fs = require("fs");
+const fsp = require('fs').promises;
 const { v4: uuidv4 } = require("uuid");
 const AmazonS3URI = require("amazon-s3-uri");
 
@@ -74,6 +75,32 @@ async function poll(params) {
   }
 }
 
+async function generateSummary(transcript_file, entities, sen_count = 3) {
+  let sentences = await fsp.readFile(transcript_file, 'utf8');
+  sentences = sentences.replace(/([.?!])\s*(?=[A-Z])/g, "$1|").split("|");
+  
+  let key_words = Array.from(entities.Entities, (element) => {
+      return element.Text;
+  });
+
+  key_words = [...new Set(key_words)];
+
+  let summary = [];
+
+  for (i = 0; i < sen_count; i++){
+      let entity = key_words.shift();
+      for(j = 0; j < sentences.length; j++) {
+          if (sentences[j].includes(entity)){
+              summary.push(sentences[j]);
+              sentences.splice(j,1);
+              break;
+          }
+      }
+  }
+
+  return summary.join(' ').trim();
+}
+
 async function uploadAnalyzeDownload(file) {
   var uploadParams = { Bucket: "pw-comprehend", Key: "", Body: "" };
   // Configure the file stream and obtain the upload parameters
@@ -137,11 +164,11 @@ async function uploadAnalyzeDownload(file) {
       .replace(/\\f/g, "\\f");
     data = data.replace(/[\u0000-\u0019]+/g, "");
 
-    console.log(data);
-
     let json = JSON.parse(data);
     return json;
   });
-
-  console.log(data);
+  
+  let sentence_count = 5;
+  let summary = await generateSummary(file, data, sentence_count);
+  console.log(summary);
 }
