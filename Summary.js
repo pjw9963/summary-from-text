@@ -116,7 +116,6 @@ function generateSummary(transcript, entities, sen_count = 3) {
 }
 
 async function uploadAnalyzeDownload(file, bucketName) {
-
   let uploadParams = { Bucket: bucketName, Key: "", Body: "" };
   // Configure the file stream and obtain the upload parameters
   let fileStream = Buffer.from(file, "utf8");
@@ -183,6 +182,18 @@ async function uploadAnalyzeDownload(file, bucketName) {
   let sentence_count = 5;
   let summary = generateSummary(file, data, sentence_count);
   console.log(summary);
+
+  let sumUploadParams = { Bucket: bucketName, Key: "", Body: "" };
+  // Configure the file stream and obtain the upload parameters
+
+  let sumStream = Buffer.from(summary, 'utf8');
+
+  sumUploadParams.Body = sumStream;
+  sumUploadParams.Key = `${uuidv4()}-summary.txt`;
+
+  // call S3 to retrieve upload file to specified bucket
+  let input_data = await s3.upload(uploadParams).promise();
+
   return summary; //upload to s3 bucket
 }
 
