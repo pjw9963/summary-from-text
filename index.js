@@ -2,10 +2,14 @@ const express = require("express");
 const { Worker } = require("worker_threads");
 const bodyParser = require("body-parser");
 const app = express();
-const port = 3000;
+const port = 80;
 
 // create application/json parser
 let jsonParser = bodyParser.json();
+
+app.get("/", (req, res) => {
+  res.send("Were working :)");
+});
 
 app.post("/", jsonParser, (req, res) => {
   let transcript = req.body.transcript;
