@@ -116,21 +116,22 @@ function generateSummary(transcript, entities, sen_count = 3) {
 }
 
 async function uploadAnalyzeDownload(file, bucketName) {
+
+  let job_id = uuidv4();
+
   let uploadParams = { Bucket: bucketName, Key: "", Body: "" };
   // Configure the file stream and obtain the upload parameters
   let fileStream = Buffer.from(file, "utf8");
   uploadParams.Body = fileStream;
-  uploadParams.Key = `${uuidv4()}-transcript.txt`;
+  uploadParams.Key = `${job_id}-transcript.txt`;
 
   // call S3 to retrieve upload file to specified bucket
   let input_data = await s3.upload(uploadParams).promise();
 
   let input_s3Uri = `s3://${input_data.Bucket}/${input_data.key}`;
 
-  let output_unique_key = uuidv4();
-
   let comprehendParams = {
-    JobName: `transcript entities : ${output_unique_key}`,
+    JobName: `transcript entities : ${job_id}`,
     DataAccessRoleArn:
       "arn:aws:iam::346519238941:role/service-role/AmazonComprehendServiceRole-test",
     InputDataConfig: {
@@ -139,7 +140,7 @@ async function uploadAnalyzeDownload(file, bucketName) {
     },
     LanguageCode: "en",
     OutputDataConfig: {
-      S3Uri: `s3://${bucketName}/${output_unique_key}`,
+      S3Uri: `s3://${bucketName}/${job_id}`,
     },
   };
 
@@ -189,7 +190,7 @@ async function uploadAnalyzeDownload(file, bucketName) {
   let sumStream = Buffer.from(summary, 'utf8');
 
   sumUploadParams.Body = sumStream;
-  sumUploadParams.Key = `${uuidv4()}-summary.txt`;
+  sumUploadParams.Key = `${job_id}-summary.txt`;
 
   // call S3 to retrieve upload file to specified bucket
   let finalresult = await s3.upload(sumUploadParams).promise();
