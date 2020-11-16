@@ -2,10 +2,18 @@ const AWS = require("aws-sdk");
 const zlib = require("zlib");
 const path = require("path");
 const fs = require("fs");
-const fsp = require('fs').promises;
+const fsp = require("fs").promises;
 const { v4: uuidv4 } = require("uuid");
 const AmazonS3URI = require("amazon-s3-uri");
-const { Worker, isMainThread, workerData, parentPort } = require('worker_threads');
+const {
+  Worker,
+  isMainThread,
+  workerData,
+  parentPort,
+} = require("worker_threads");
+const https = require("https");
+
+const api = "https://nympy3atqj.execute-api.us-east-1.amazonaws.com/test";
 
 let s3 = new AWS.S3({
   apiVersion: "2006-03-01",
@@ -16,8 +24,9 @@ let comprehend = new AWS.Comprehend({
 });
 
 let file = workerData.file;
+let bucketName = workerData.bucketName;
 
-uploadAnalyzeDownload(file);
+uploadAnalyzeDownload(file, bucketName);
 
 // // function that returns a promise that retrieves the targz from the s3 bucket and decompresses it
 const unzipFromS3 = (key, bucket) => {
@@ -67,7 +76,12 @@ async function poll(params) {
   while (js !== "COMPLETED" && i < 50) {
     res = await comprehend.describeEntitiesDetectionJob(params).promise();
     js = res.EntitiesDetectionJobProperties.JobStatus;
-    console.log("Comprehend Job " + res.EntitiesDetectionJobProperties.JobId + " Status: " + js);
+    console.log(
+      "Comprehend Job " +
+        res.EntitiesDetectionJobProperties.JobId +
+        " Status: " +
+        js
+    );
     if (js === "COMPLETED") {
       return res;
     }
@@ -78,33 +92,34 @@ async function poll(params) {
 
 function generateSummary(transcript, entities, sen_count = 3) {
   sentences = transcript.replace(/([.?!])\s*(?=[A-Z])/g, "$1|").split("|");
-  
+
   let key_words = Array.from(entities.Entities, (element) => {
-      return element.Text;
+    return element.Text;
   });
 
   key_words = [...new Set(key_words)];
 
   let summary = [];
 
-  for (i = 0; i < sen_count; i++){
-      let entity = key_words.shift();
-      for(j = 0; j < sentences.length; j++) {
-          if (sentences[j].includes(entity)){
-              summary.push(sentences[j]);
-              sentences.splice(j,1);
-              break;
-          }
+  for (i = 0; i < sen_count; i++) {
+    let entity = key_words.shift();
+    for (j = 0; j < sentences.length; j++) {
+      if (sentences[j].includes(entity)) {
+        summary.push(sentences[j]);
+        sentences.splice(j, 1);
+        break;
       }
+    }
   }
 
-  return summary.join(' ').trim();
+  return summary.join(" ").trim();
 }
 
-async function uploadAnalyzeDownload(file) {
-  var uploadParams = { Bucket: "pw-comprehend", Key: "", Body: "" };
+async function uploadAnalyzeDownload(file, bucketName) {
+
+  let uploadParams = { Bucket: bucketName, Key: "", Body: "" };
   // Configure the file stream and obtain the upload parameters
-  let fileStream = Buffer.from(file, 'utf8')
+  let fileStream = Buffer.from(file, "utf8");
   uploadParams.Body = fileStream;
   uploadParams.Key = `${uuidv4()}-transcript.txt`;
 
@@ -120,12 +135,12 @@ async function uploadAnalyzeDownload(file) {
     DataAccessRoleArn:
       "arn:aws:iam::346519238941:role/service-role/AmazonComprehendServiceRole-test",
     InputDataConfig: {
-      S3Uri: input_s3Uri, // test s3uri: s3://pw-comprehend/transcript.txt
+      S3Uri: input_s3Uri,
       InputFormat: "ONE_DOC_PER_FILE",
     },
     LanguageCode: "en",
     OutputDataConfig: {
-      S3Uri: `s3://pw-comprehend-output/${output_unique_key}`,
+      S3Uri: `s3://${bucketName}/${output_unique_key}`,
     },
   };
 
@@ -164,7 +179,7 @@ async function uploadAnalyzeDownload(file) {
     let json = JSON.parse(data);
     return json;
   });
-  
+
   let sentence_count = 5;
   let summary = generateSummary(file, data, sentence_count);
   console.log(summary);
