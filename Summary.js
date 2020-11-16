@@ -192,7 +192,7 @@ async function uploadAnalyzeDownload(file, bucketName) {
   sumUploadParams.Key = `${uuidv4()}-summary.txt`;
 
   // call S3 to retrieve upload file to specified bucket
-  let input_data = await s3.upload(uploadParams).promise();
+  let finalresult = await s3.upload(uploadParams).promise();
 
   return summary; //upload to s3 bucket
 }
