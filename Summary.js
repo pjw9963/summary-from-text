@@ -139,7 +139,7 @@ async function uploadAnalyzeDownload(file, bucketName) {
   let comprehendParams = {
     JobName: `transcript entities : ${job_id}`,
     DataAccessRoleArn:
-      "arn:aws:iam::346519238941:role/service-role/AmazonComprehendServiceRole-test",
+      "arn:aws:iam::186509206111:role/IAMCrossAccount",
     InputDataConfig: {
       S3Uri: input_s3Uri,
       InputFormat: "ONE_DOC_PER_FILE",
