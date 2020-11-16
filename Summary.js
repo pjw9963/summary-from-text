@@ -26,6 +26,7 @@ let comprehend = new AWS.Comprehend({
 let file = workerData.file;
 let bucketName = workerData.bucketName;
 
+
 uploadAnalyzeDownload(file, bucketName);
 
 // // function that returns a promise that retrieves the targz from the s3 bucket and decompresses it
@@ -119,16 +120,7 @@ async function uploadAnalyzeDownload(file, bucketName) {
 
   let job_id = uuidv4();
 
-  let uploadParams = { Bucket: bucketName, Key: "", Body: "" };
-  // Configure the file stream and obtain the upload parameters
-  let fileStream = Buffer.from(file, "utf8");
-  uploadParams.Body = fileStream;
-  uploadParams.Key = `${job_id}-transcript.txt`;
-
-  // call S3 to retrieve upload file to specified bucket
-  let input_data = await s3.upload(uploadParams).promise();
-
-  let input_s3Uri = `s3://${input_data.Bucket}/${input_data.key}`;
+  let input_s3Uri = `s3://${bucketName}/${file}`;
 
   let comprehendParams = {
     JobName: `transcript entities : ${job_id}`,
@@ -180,8 +172,18 @@ async function uploadAnalyzeDownload(file, bucketName) {
     return json;
   });
 
+
+  let options = {
+    Bucket: bucketName,
+    Key: file,
+  };
+
+  let fileText = await s3.getObject(options).promise();
+
+  fileText = fileText.toString('utf-8');
+
   let sentence_count = 5;
-  let summary = generateSummary(file, data, sentence_count);
+  let summary = generateSummary(fileText, data, sentence_count);
   console.log(summary);
 
   let sumUploadParams = { Bucket: bucketName, Key: "", Body: "" };
