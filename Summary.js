@@ -26,8 +26,22 @@ let comprehend = new AWS.Comprehend({
 let file = workerData.file;
 let bucketName = workerData.bucketName;
 
+//accessBucket(file, bucketName);
 
 uploadAnalyzeDownload(file, bucketName);
+
+async function accessBucket(file, bucketName) {
+  let options = {
+    Bucket: bucketName,
+    Key: file,
+  };
+
+  let fileText = await s3.getObject(options).promise();
+
+  fileText = fileText.Body.toString('utf-8');
+
+  console.log(fileText);
+}
 
 // // function that returns a promise that retrieves the targz from the s3 bucket and decompresses it
 const unzipFromS3 = (key, bucket) => {
