@@ -20,7 +20,7 @@ let s3 = new AWS.S3({
 });
 
 let comprehend = new AWS.Comprehend({
-  region: "us-east-2",
+  region: "us-east-1",
 });
 
 let file = workerData.file;
@@ -180,7 +180,9 @@ async function uploadAnalyzeDownload(file, bucketName) {
 
   let fileText = await s3.getObject(options).promise();
 
-  fileText = fileText.toString('utf-8');
+  fileText = fileText.Body.toString('utf-8');
+
+  console.log(fileText);
 
   let sentence_count = 5;
   let summary = generateSummary(fileText, data, sentence_count);

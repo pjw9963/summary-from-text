@@ -2,7 +2,7 @@ const express = require("express");
 const { Worker } = require("worker_threads");
 const bodyParser = require("body-parser");
 const app = express();
-const port = 80;
+const port = 3000;
 
 // create application/json parser
 let jsonParser = bodyParser.json();
