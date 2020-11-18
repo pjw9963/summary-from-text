@@ -23,7 +23,7 @@ let comprehend = new AWS.Comprehend({
 
 let file = workerData.file;
 let bucketName = workerData.bucketName;
-let role = workerData.Role;
+let role = workerData.role;
 
 
 uploadAnalyzeDownload(file, bucketName, role);
