@@ -14,7 +14,8 @@ app.get("/", (req, res) => {
 app.post("/", jsonParser, (req, res) => {
   let transcript = req.body.transcript;
   let bucket = req.body.bucketName;
-  parseJSAsync(transcript, bucket).catch((err) => {
+  let role = req.body.role;
+  parseJSAsync(transcript, bucket, role).catch((err) => {
     console.log(err);
   });
   res.send("submitted!");
@@ -24,10 +25,10 @@ app.listen(port, () => {
   console.log(`Summary app listening at http://localhost:${port}`);
 });
 
-function parseJSAsync(transcript, bucket) {
+function parseJSAsync(transcript, bucket, role) {
   return new Promise((resolve, reject) => {
     const worker = new Worker("./Summary.js", {
-      workerData: { file: transcript, bucketName: bucket },
+      workerData: { file: transcript, bucketName: bucket, role: role },
     });
     worker.on("message", resolve);
     worker.on("error", reject);

@@ -11,9 +11,7 @@ const {
   workerData,
   parentPort,
 } = require("worker_threads");
-const https = require("https");
 
-const api = "https://nympy3atqj.execute-api.us-east-1.amazonaws.com/test";
 
 let s3 = new AWS.S3({
   apiVersion: "2006-03-01",
@@ -25,23 +23,10 @@ let comprehend = new AWS.Comprehend({
 
 let file = workerData.file;
 let bucketName = workerData.bucketName;
+let role = workerData.Role;
 
-//accessBucket(file, bucketName);
 
-uploadAnalyzeDownload(file, bucketName);
-
-async function accessBucket(file, bucketName) {
-  let options = {
-    Bucket: bucketName,
-    Key: file,
-  };
-
-  let fileText = await s3.getObject(options).promise();
-
-  fileText = fileText.Body.toString('utf-8');
-
-  console.log(fileText);
-}
+uploadAnalyzeDownload(file, bucketName, role);
 
 // // function that returns a promise that retrieves the targz from the s3 bucket and decompresses it
 const unzipFromS3 = (key, bucket) => {
@@ -54,26 +39,6 @@ const unzipFromS3 = (key, bucket) => {
     s3.getObject(options, function (err, res) {
       if (err) return reject(err);
       resolve(zlib.unzipSync(res.Body).toString());
-    });
-  });
-};
-
-// checks the status of the submitted comprehend job every ten seconds until complete
-const checkStatus = function (params) {
-  return new Promise(function (resolve, reject) {
-    comprehend.describeEntitiesDetectionJob(params, function (err, data) {
-      if (err) console.log(err, err.stack);
-      else {
-        let jobStatus = data.EntitiesDetectionJobProperties.JobStatus;
-        if (jobStatus.match(/^(IN_PROGRESS|SUBMITTED)$/)) {
-          setTimeout(() => checkStatus(params), 10000);
-          console.log(jobStatus);
-        } else if (jobStatus == "COMPLETED") {
-          resolve(data);
-        } else {
-          throw data;
-        }
-      }
     });
   });
 };
@@ -99,6 +64,9 @@ async function poll(params) {
     );
     if (js === "COMPLETED") {
       return res;
+    }
+    if (js === "FAILED") {
+      throw res;
     }
     await wait(DELAY);
     i++;
@@ -130,7 +98,7 @@ function generateSummary(transcript, entities, sen_count = 3) {
   return summary.join(" ").trim();
 }
 
-async function uploadAnalyzeDownload(file, bucketName) {
+async function uploadAnalyzeDownload(file, bucketName, role) {
 
   let job_id = uuidv4();
 
@@ -138,8 +106,7 @@ async function uploadAnalyzeDownload(file, bucketName) {
 
   let comprehendParams = {
     JobName: `transcript entities : ${job_id}`,
-    DataAccessRoleArn:
-      "arn:aws:iam::186509206111:role/IAMCrossAccount",
+    DataAccessRoleArn: role,
     InputDataConfig: {
       S3Uri: input_s3Uri,
       InputFormat: "ONE_DOC_PER_FILE",
