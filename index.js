@@ -16,7 +16,7 @@ app.post("/", jsonParser, (req, res) => {
   let transcript = req.body.transcript;
   let bucket = req.body.bucketName;
   let role = req.body.role;
-  let jobId = uuidv4();
+  let jobId = req.body.jobId;
   parseJSAsync(transcript, bucket, role, jobId).catch((err) => {
     console.log(err);
   });
