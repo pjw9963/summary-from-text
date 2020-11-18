@@ -3,7 +3,6 @@ const zlib = require("zlib");
 const path = require("path");
 const fs = require("fs");
 const fsp = require("fs").promises;
-const { v4: uuidv4 } = require("uuid");
 const AmazonS3URI = require("amazon-s3-uri");
 const {
   Worker,
@@ -24,9 +23,10 @@ let comprehend = new AWS.Comprehend({
 let file = workerData.file;
 let bucketName = workerData.bucketName;
 let role = workerData.role;
+let job_id = workerData.jobId;
 
 
-uploadAnalyzeDownload(file, bucketName, role);
+uploadAnalyzeDownload(file, bucketName, role, job_id);
 
 // // function that returns a promise that retrieves the targz from the s3 bucket and decompresses it
 const unzipFromS3 = (key, bucket) => {
@@ -46,6 +46,32 @@ const unzipFromS3 = (key, bucket) => {
 // a delay function
 function wait(delay) {
   return new Promise((resolve) => setTimeout(resolve, delay));
+}
+
+function emptyBucket(bucketName, job_id, callback){
+  var params = {
+    Bucket: bucketName,
+    Prefix: `${job_id}`
+  };
+
+  s3.listObjects(params, function(err, data) {
+    if (err) return callback(err);
+
+    if (data.Contents.length == 0) callback();
+
+    params = {Bucket: bucketName};
+    params.Delete = {Objects:[]};
+
+    data.Contents.forEach(function(content) {
+      params.Delete.Objects.push({Key: content.Key});
+    });
+
+    s3.deleteObjects(params, function(err, data) {
+      if (err) return callback(err);
+      if(data.Contents.length == 1000)emptyBucket(bucketName, job_id, callback);
+      else callback();
+    });
+  });
 }
 
 // poll in while loop until conditions are met
@@ -98,9 +124,7 @@ function generateSummary(transcript, entities, sen_count = 3) {
   return summary.join(" ").trim();
 }
 
-async function uploadAnalyzeDownload(file, bucketName, role) {
-
-  let job_id = uuidv4();
+async function uploadAnalyzeDownload(file, bucketName, role, job_id) {
 
   let input_s3Uri = `s3://${bucketName}/${file}`;
 
